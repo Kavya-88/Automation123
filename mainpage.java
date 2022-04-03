@@ -1,4 +1,4 @@
-//SCRIPT TO TEST CHECKOUT
+//SCRIPT TO TEST CHECKOUT FOR BSTACKDEMO - KAVYA
 import java.util.List;
 
 import org.openqa.selenium.By;
@@ -8,14 +8,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
  
-
-// WebDriverWait
-// Multiple Drivers can be called
-// Exception handling --> try catch, types of selenium exception
-// Driver close
-// /Seperate Modules --> Login, product, order, confirmation
-// Re-usable methods for oder verification
-
 
 public class mainpage {
 
@@ -27,31 +19,30 @@ public class mainpage {
         WebDriver driver = new ChromeDriver();
         driver.manage().window().maximize();
         driver.get("https://bstackdemo.com/");
-		// Implicit wait
+		// Implicit wait - add later
 
 
-        Thread.sleep(1000);  //Explicit Wait
+        Thread.sleep(1000);  //Explicit Wait - add later
 		
-		// Sign in should be visible
-		// Title should be displayed
-		// Login steps
-		// Product verification
-		
-		List<WebElement> productlist = driver.findElements(By.xpath("//*[@class='shelf-container']/div/p"));
+		//I can find elements using these : xpath,class,id ....	
+		//GET the complete count of products and price.
+        List<WebElement> productlist = driver.findElements(By.className("shelf-item__title"));
 		List<WebElement> pricelist = driver.findElements(By.xpath("//*[@class='shelf-container']/div/div[3]/div[1]/b"));
+                
 		int countproductlist = productlist.size();
 		System.out.println("Products size : "+ countproductlist);
 		
 		int countpricelist = pricelist.size();
 		System.out.println("Price size : "+ countpricelist);
 		
+        
 		for(int i=0;i<=countproductlist;i++) {
 			
 			getpricelist = pricelist.get(i).getText();
 			System.out.println("getpricelist : "+ getpricelist);
 			Thread.sleep(1000);
 			
-			if(productlist.get(i).getText().contains("iPhone 12")) {
+			if(productlist.get(i).getText().contains("iPhone 11")) {
 				getProduct = productlist.get(i).getText();
 				System.out.println("getProduct : "+ getProduct);
 				Thread.sleep(1000);
@@ -63,13 +54,10 @@ public class mainpage {
 			}
 		}
 		
-		// Check if Float cart is displayed
-		// 
-
-		driver.findElement(By.xpath("//*[contains(text(),'Checkout')]")).click();
-
-
 		
+		
+        driver.findElement(By.className("buy-btn")).click();
+	
 		Thread.sleep(5000);
 		
 		//Get the Web Element corresponding to the field UserName (Textfield)
@@ -84,11 +72,14 @@ public class mainpage {
         pass.sendKeys("testingisfun99");
         pass.sendKeys(Keys.ENTER);
 		
-		driver.findElement(By.xpath("//button[@id='login-btn']")).click();
+        driver.findElement(By.id("login-btn")).click();
+		
 		Thread.sleep(5000);	
 		
 		// Checkout Page
 		String ProductAddedInCart = driver.findElement(By.xpath("//*[@class='product-title optimizedCheckout-contentPrimary']")).getText();
+        
+        //product-title optimizedCheckout-contentPrimary
 		System.out.println(ProductAddedInCart);
 		Thread.sleep(2000);	
 		
@@ -109,27 +100,25 @@ public class mainpage {
 		Thread.sleep(2000);
 
 
-		// Code for entering the text
+		// Call Method for entering the text in user details field (Address, Name)
 		enterUserDetails(driver);
-
+        Thread.sleep(3000);
+		driver.findElement(By.id("checkout-shipping-continue")).click();        
 		
 	
 		
 		Thread.sleep(3000);
-		// Check for Confirmation page is visible
-		// Verify text "Your Order has been successfully placed.""
-		//Verify Donl;oad receipt
-		// Verify Order Summary
+		//Click continue shopping button at the end
 		driver.findElement(By.xpath("//button[contains(text(),'Continue Shopping »')]")).click();
+        
+        Thread.sleep(2000);
+		
+		//Click orders to verify the history
+        driver.findElement(By.id("orders")).click();
+        
 
-		Thread.sleep(2000);
-		// Verify user is in product page
-		// Verify Orders link is visible
-
-		driver.findElement(By.xpath("//strong[contains(text(),'Orders')]")).click();
-
-		// Verify page title
-		// Verify Order details
+		// I can also Verify page title and order details
+		
 		Thread.sleep(2000);
 
 
@@ -137,16 +126,14 @@ public class mainpage {
 
     }
 	
-
-	private static void enterUserDetails(WebDriver driver){
-
-
-		driver.findElement(By.xpath("//input[@id='firstNameInput']")).sendKeys("Test");
-		driver.findElement(By.xpath("//input[@id='lastNameInput']")).sendKeys("Test");
-		driver.findElement(By.xpath("//input[@id='addressLine1Input']")).sendKeys("Test");
-		driver.findElement(By.xpath("//input[@id='provinceInput']")).sendKeys("Test");
-		driver.findElement(By.xpath("//input[@id='postCodeInput']")).sendKeys("2166");
-		driver.findElement(By.xpath("//button[@id='checkout-shipping-continue']")).click();
+    //Method to fill user detials
+    	private static void enterUserDetails(WebDriver driver){
+        driver.findElement(By.id("firstNameInput")).sendKeys("Firstname");
+		driver.findElement(By.id("lastNameInput")).sendKeys("Lastname");
+		driver.findElement(By.id("addressLine1Input")).sendKeys("Address");
+		driver.findElement(By.id("provinceInput")).sendKeys("NSW");
+		driver.findElement(By.id("postCodeInput")).sendKeys("2000");
+        
 	}
 
     private  static void driverClose(WebDriver driver){
@@ -154,3 +141,10 @@ public class mainpage {
     }
 
 }
+
+//GOOD TO HAVE: WORK IN PROGRESS
+// WebDriverWait
+// Multiple Drivers can be called
+// Exception handling --> try catch, types of selenium exception
+// /Seperate Modules --> Login, product, order, confirmation
+// Re-usable methods for oder verification
