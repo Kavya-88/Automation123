@@ -15,13 +15,15 @@ public class mainpage {
     static String getProduct;
 	static String getpricelist;
 
+
+	// This is the main method
     public static void main(String[] args) throws Exception {
         WebDriver driver = new ChromeDriver();
         driver.manage().window().maximize();
         driver.get("https://bstackdemo.com/");
 		// Implicit wait - add later
 
-
+		// this will pause the program for 1000milli sec
         Thread.sleep(1000);  //Explicit Wait - add later
 		
 		//I can find elements using these : xpath,class,id ....	
@@ -47,7 +49,7 @@ public class mainpage {
 				System.out.println("getProduct : "+ getProduct);
 				Thread.sleep(1000);
 				
-				Thread.sleep(1000);
+			// Below will find the product and click add to cart
 				driver.findElement(By.xpath("//*[@class='shelf-container']/div/p[contains(text(),'"+getProduct+"')]//parent::*/div[4]")).click();
 				Thread.sleep(1000);
 				break;
@@ -55,7 +57,7 @@ public class mainpage {
 		}
 		
 		
-		
+		//This will click the checkout button 
         driver.findElement(By.className("buy-btn")).click();
 	
 		Thread.sleep(5000);
@@ -72,6 +74,7 @@ public class mainpage {
         pass.sendKeys("testingisfun99");
         pass.sendKeys(Keys.ENTER);
 		
+		// Click login button
         driver.findElement(By.id("login-btn")).click();
 		
 		Thread.sleep(5000);	
@@ -79,21 +82,22 @@ public class mainpage {
 		// Checkout Page
 		String ProductAddedInCart = driver.findElement(By.xpath("//*[@class='product-title optimizedCheckout-contentPrimary']")).getText();
         
-        //product-title optimizedCheckout-contentPrimary
+        // Print product name in cart
 		System.out.println(ProductAddedInCart);
 		Thread.sleep(2000);	
 		
 		String PriceAddedInCart = driver.findElement(By.xpath("//*[@class='product-price optimizedCheckout-contentPrimary']")).getText();
+		// Print price
 		System.out.println(PriceAddedInCart);
 		Thread.sleep(2000);	
 		
 		
 		String CartPrice = PriceAddedInCart.replaceAll("[$,]", "");
 		System.out.println(CartPrice);
-		
+		// Matching cart product and initial defined product
 		Assert.assertEquals(getProduct, ProductAddedInCart);
 		System.out.println("Product matched");
-		
+		// Price match
 		Assert.assertEquals(getpricelist, CartPrice);
 		System.out.println("Product Price match");
 			
@@ -103,6 +107,7 @@ public class mainpage {
 		// Call Method for entering the text in user details field (Address, Name)
 		enterUserDetails(driver);
         Thread.sleep(3000);
+		// Click Submit button
 		driver.findElement(By.id("checkout-shipping-continue")).click();        
 		
 	
@@ -110,6 +115,7 @@ public class mainpage {
 		Thread.sleep(3000);
 		//Click continue shopping button at the end
 		driver.findElement(By.xpath("//button[contains(text(),'Continue Shopping »')]")).click();
+		
         
         Thread.sleep(2000);
 		
